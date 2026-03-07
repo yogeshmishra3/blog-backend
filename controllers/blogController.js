@@ -29,39 +29,39 @@ export const createBlog = async (req, res) => {
 };
 
 
-export const getBlogs = async (req, res) => {
+// export const getBlogs = async (req, res) => {
 
-    try {
+//     try {
 
-        const { page = 1, limit = 10, search } = req.query;
+//         const { page = 1, limit = 10, search } = req.query;
 
-        const query = {};
+//         const query = {};
 
-        if (search) {
-            query.title = { $regex: search, $options: "i" };
-        }
+//         if (search) {
+//             query.title = { $regex: search, $options: "i" };
+//         }
 
-        const blogs = await Blog.find(query)
-            .populate("author", "name email")
-            .skip((page - 1) * limit)
-            .limit(Number(limit))
-            .sort({ createdAt: -1 });
+//         const blogs = await Blog.find(query)
+//             .populate("author", "name email")
+//             .skip((page - 1) * limit)
+//             .limit(Number(limit))
+//             .sort({ createdAt: -1 });
 
-        const total = await Blog.countDocuments(query);
+//         const total = await Blog.countDocuments(query);
 
-        res.json({
-            blogs,
-            total,
-            page,
-            pages: Math.ceil(total / limit)
-        });
+//         res.json({
+//             blogs,
+//             total,
+//             page,
+//             pages: Math.ceil(total / limit)
+//         });
 
-    } catch (error) {
+//     } catch (error) {
 
-        res.status(500).json({ error: error.message });
+//         res.status(500).json({ error: error.message });
 
-    }
-};
+//     }
+// };
 
 
 export const getBlogById = async (req, res) => {
@@ -175,3 +175,43 @@ export const LikeBlog = async (req, res) => {
     res.json(blog);
 
 }
+
+// Function for filtering by Tags
+export const getBlogs = async (req, res) => {
+
+    try {
+
+        const { page = 1, limit = 10, search, tag } = req.query;
+
+        const query = {};
+
+        if (search) {
+            query.title = { $regex: search, $options: "i" };
+        }
+
+        if (tag) {
+            query.tags = tag;   // filter by tag
+        }
+
+        const blogs = await Blog.find(query)
+            .populate("author", "name")
+            .skip((page - 1) * limit)
+            .limit(Number(limit))
+            .sort({ createdAt: -1 });
+
+        const total = await Blog.countDocuments(query);
+
+        res.json({
+            blogs,
+            total,
+            page,
+            pages: Math.ceil(total / limit)
+        });
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+
+    }
+
+};
