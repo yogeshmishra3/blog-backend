@@ -4,7 +4,7 @@ export const createBlog = async (req, res) => {
 
     try {
 
-        const { title, content, tags } = req.body;
+        const { title, content, tags, description } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({
@@ -15,6 +15,7 @@ export const createBlog = async (req, res) => {
         const blog = await Blog.create({
             title,
             content,
+            description,
             tags,
             author: req.user._id
         });
@@ -101,7 +102,7 @@ export const updateBlog = async (req, res) => {
 
         if (blog.author.toString() !== req.user._id.toString()) {
             return res.status(403).json({
-                message: "Not authorized"
+                message: " You are Not authorized"
             });
         }
 

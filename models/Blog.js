@@ -6,6 +6,12 @@ const blogSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        // Des
+        description: {
+            type: String,
+            required: true
+        },
+
 
         content: {
             type: String,
