@@ -4,7 +4,7 @@ const ConnectionDB = async () => {
 
     try {
 
-        await mongoose.connect("mongodb+srv://dhoommachale:0xswarnil@cluster0.uj7bi.mongodb.net/blogapp?retryWrites=true&w=majority");
+        await mongoose.connect("mongodb+srv://yogeshmconvo_db_user:PJWFEcyv3t40RWum@cluster0.vw8fdny.mongodb.net/?appName=Cluster0");
 
         console.log("MongoDB is Connected");
 
